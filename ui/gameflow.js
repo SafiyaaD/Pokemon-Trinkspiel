@@ -1,4 +1,4 @@
-// ui/gameFlow.js
+// ui/gameflow.js
 import { createGame } from '../game/game.js';
 import { currentPlayerLabel, playerTokens } from './dom.js';
 
