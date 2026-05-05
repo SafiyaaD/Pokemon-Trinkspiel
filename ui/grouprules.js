@@ -1,4 +1,4 @@
-// rules/groupRules.js
+// rules/grouprules.js
 import { showPopup, updatePopupText, showPopupOkButton, setPopupAction } from "./popup.js";
 
 export const GROUP_RULES = {
