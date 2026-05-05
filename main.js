@@ -1,6 +1,6 @@
 // main.js
 import { loadHotspots, renderHotspots } from './game/board.js';
-import { setupUI } from './ui/gameFlow.js';
+import { setupUI } from './ui/gameflow.js';
 
 async function init() {
   const hotspots = await loadHotspots();
