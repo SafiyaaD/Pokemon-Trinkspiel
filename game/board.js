@@ -5,7 +5,7 @@ import { showPopup } from '../ui/popup.js';
 
 
 export async function loadHotspots() {
-  const res = await fetch("./data/hotspots.json");
+  const res = await fetch("../data/hotspots.json");
   return await res.json();
 }
 
