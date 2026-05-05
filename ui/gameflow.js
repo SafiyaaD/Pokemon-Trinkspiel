@@ -12,7 +12,7 @@ import { initLeaderboard } from './leaderboard.js';
 
 import { germanTexts } from '../data/text.js';
 import { applyRule } from './rules.js';
-import { GROUP_RULES } from "./grouprules.js";
+import { GROUP_RULES } from "./grouprules2.js";
 import { updatePopupText, showPopupOkButton, hidePopupOkButton, enableDiceButton, disableDiceButton, setPopupAction} from "./popup.js";
 
 const TYPE_ADV = {
