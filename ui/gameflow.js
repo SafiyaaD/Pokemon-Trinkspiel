@@ -935,6 +935,43 @@ if (handled?.type === "threeRolls") {
     }
   }
 
+    // === GAME END CHECK ===
+  const LAST_FIELD_ID = 72;
+
+  if (fieldId === LAST_FIELD_ID) {
+
+    // Gewinner bestimmen
+    const winner = player;
+
+    // Leaderboard sortieren
+    const ranking = [...game.getPlayers()].sort((a, b) => b.position - a.position);
+
+    const podiumHtml = ranking
+      .map((p, i) => `${i + 1}. ${p.name}`)
+      .join("<br>");
+
+    // Endscreen anzeigen
+    showPopup(
+      "Spiel beendet!",
+      `
+        ${winner.name} ist Pokémon-Meister!<br><br>
+        <b>Endstand:</b><br>
+        ${podiumHtml}
+      `,
+      () => {
+        // Optional: Seite neu laden oder Setup anzeigen
+        location.reload();
+      }
+    );
+
+    // Optional: Konfetti starten (Hook)
+    if (typeof startConfetti === "function") {
+      startConfetti();
+    }
+
+    return; // GANZ WICHTIG: Rest von onLand NICHT mehr ausführen
+  }
+
   // -------------------------------------------------------
   // 2) Standard: Feld-Popup → danach Spielerwechsel
   // -------------------------------------------------------

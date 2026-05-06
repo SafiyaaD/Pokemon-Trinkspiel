@@ -63,7 +63,7 @@ export const germanTexts = {
 
   32: { title: "Prismania City", text: "<b>Evoli</b> entwickelt sich!<br><br><b><u>📜 Du bestimmst eine neue Regel!</u></b><br>Wer die Regel bricht, trinkt 1!" },
 
-  33: { title: "Prismania Arena", text: "<b>Nächste Runde kämpfst du!</b><br><br><b>1–3: Dein Gegner setzt Stachelspore ein!</b><br>Du kannst dich nicht bewegen.<br><b>4–6: Du setzt Megasauger ein!</b><br><b><u>🍺 Trinke aus!</u></b>" },
+  33: { title: "Prismania Arena", text: "<b>Nächste Runde kämpfst du!</b><br><br><b>1–3: Dein Gegner setzt Stachelspore ein!</b><br>Du kannst dich nicht bewegen.<br><b>4–6: Du setzt Megasauger ein!</b><br><b><u> Du gewinnst! 🍺 Trinke aus!</u></b>" },
 
   34: { title: "Route 7", text: "Wer ist das langsamste <b>Enton</b> der Gruppe?<br><br><b><u>👑 Du bist ab jetzt der Daumenkönig!</u></b>" },
 
@@ -97,7 +97,7 @@ export const germanTexts = {
 
   49: { title: "Fuchsania City", text: "Du bist in der <b>Safari-Zone</b>.<br><br><b><u>🎲 Würfle jede Runde.</u></b>" },
 
-  50: { title: "Safari Zone Areal 1", text: "Du gehst angeln...<br>Ein wildes <b>Dratini</b> erscheint!<br><br><b>🎲 Würfle eine 1, um es zu fangen.</b><br>Andernfalls <b><u>🍺 trinke traurig 1!</u></b>" },
+  50: { title: "Safari Zone Areal 1", text: "Du gehst angeln.............<br>Ein wildes <b>Dratini</b> erscheint!<br><br><b>🎲 Würfle eine 1, um es zu fangen.</b><br>Andernfalls <b><u>🍺 trinke traurig 1!</u></b>" },
 
   51: { title: "Safari Zone Areal 2", text: "Ein wildes <b>Tauros</b> erscheint.<br>Aber es flieht sofort.<br><br><b><u>🍺 Trinke 2, weil du zu langsam warst.</u></b>" },
 

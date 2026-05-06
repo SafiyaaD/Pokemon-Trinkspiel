@@ -57,10 +57,10 @@ export const GROUP_RULES = {
           }
           else if (roll <= 4) {
             player.skipRounds = (player.skipRounds || 0) + 1;
-            resultText = "Du wirfst einen Stein. Trink 4 und setze 1 Runde aus!";
+            resultText = "Du wirfst einen Stein. <br> Trink 4 und setze 1 Runde aus!";
           }
           else {
-            resultText = "Du wirfst einen Safariball. Trinke 2. Safraribälle sind einfach Scheiße.";
+            resultText = "Du wirfst einen Safariball. <br> <b>Trinke 2.</b> <br> Safaribälle sind einfach Scheiße.";
           }
 
           // Popup‑Text aktualisieren (Animation bleibt sichtbar!)

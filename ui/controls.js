@@ -117,6 +117,37 @@ function rollDice(manualValue = null) {
     return;
   }
 
+  // 🔥 Gate-Success → Popup + Feldtext + Spielerwechsel
+if (gateSuccess) {
+  const player = game.getCurrentPlayer();
+  const fieldId = player.position;
+  const data = germanTexts[fieldId];
+
+  const fieldTitle = data?.title ?? "Unbenanntes Feld";
+  const fieldText  = data?.text  ?? "Kein deutscher Text hinterlegt.";
+
+  // 1) Erfolgsmeldung
+  showPopup(
+    fieldTitle,
+    `Hurra, du hast gewonnen!`,
+    () => {
+
+      // 2) Danach Feldtext anzeigen
+      showPopup(
+        fieldTitle,
+        fieldText,
+        () => {
+          // 3) Danach Spielerwechsel
+          game.nextPlayer();
+        }
+      );
+
+    }
+  );
+
+  return;
+}
+
   // 🔥 Multi-Gate → Popup + Spielerwechsel
   if (multiGate) {
 
@@ -128,7 +159,7 @@ function rollDice(manualValue = null) {
           Erlaubte Zahlen: <b>${multiGate.allowed.join(", ")}</b><br><br>
 
           Gewürfelt: <b>${result}</b><br>
-          ${multiGate.hit ? "Treffer!" : "Kein Treffer."}<br><br>
+          ${multiGate.hit ? "Treffer!" : "Kein Treffer. Trink 1"}<br><br>
 
           Fortschritt: <b>${multiGate.progress} / ${multiGate.required}</b><br><br>
           Nächster Spieler ist dran.

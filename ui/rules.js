@@ -128,7 +128,7 @@ function applySingleRule(rule, player, game) {
       case "changePokemon": {
   if (rule.to === "pikachu") {
     player.colorClass = "player-yellow";
-    player.pokemonIcon = "/assets/pikachu.png";
+    player.pokemonIcon = "../assets/pikachu.png";
     player.type = "pikachu";
   }
 
