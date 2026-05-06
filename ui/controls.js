@@ -69,6 +69,7 @@ export function initControls(game, playerTokens) {
   }
 
 function rollDice(manualValue = null) {
+  const player = game.getCurrentPlayer();
   let result, gateFail, gateSuccess, multiGate;
 
   // Automatischer Wurf
