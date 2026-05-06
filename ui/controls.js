@@ -78,7 +78,7 @@ function rollDice(manualValue = null) {
     if (!r) return;
     result = r.value;
     gateFail = r.gateFail;
-    gateSuccess = r.gateSuccess;
+    gateSuccess = player.gate && !gateFail;
     multiGate = r.multiGate;
   } 
   // Manuelle Eingabe
