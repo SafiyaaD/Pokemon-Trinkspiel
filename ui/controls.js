@@ -69,7 +69,7 @@ export function initControls(game, playerTokens) {
   }
 
 function rollDice(manualValue = null) {
-  let result, gateFail, multiGate;
+  let result, gateFail, gateSuccess, multiGate;
 
   // Automatischer Wurf
   if (manualValue === null) {
@@ -78,12 +78,14 @@ function rollDice(manualValue = null) {
     if (!r) return;
     result = r.value;
     gateFail = r.gateFail;
+    gateSuccess = r.gateSuccess;
     multiGate = r.multiGate;
   } 
   // Manuelle Eingabe
   else {
     result = manualValue;
     gateFail = false;
+    gateSuccess = false;
     multiGate = null;
   }
 
