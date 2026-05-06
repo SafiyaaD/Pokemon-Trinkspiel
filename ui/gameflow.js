@@ -307,6 +307,30 @@ if (hotspotGroupRule) {
   continueAfterGroup();
   return;
 }
+
+// === GAME END HANDLER ===
+function triggerGameEnd() {
+  const player = game.getCurrentPlayer();
+
+  const ranking = [...game.getPlayers()].sort((a, b) => b.position - a.position);
+
+  const podiumHtml = ranking
+    .map((p, i) => `${i + 1}. ${p.name}`)
+    .join("<br>");
+
+  showPopup(
+    "Spiel beendet!",
+    `
+      ${player.name} ist Pokémon-Meister!<br><br>
+      <b>Endstand:</b><br>
+      ${podiumHtml}
+    `,
+    () => location.reload()
+  );
+
+  if (typeof startConfetti === "function") startConfetti();
+}
+
 // -------------------------------------------------------
 // AFTER GROUP POPUP: Rest von onLand abarbeiten
 // -------------------------------------------------------
@@ -389,17 +413,24 @@ function continueAfterGroup() {
       return;
     }
 
-    //
-    // === STOP ===
-    //
-   if (handled?.type === "stop") {
+//
+// === STOP ===
+//
+if (handled?.type === "stop") {
+  // ⭐ Normales STOP-Feld
+  if (fieldId === 72) {
+    showPopup(
+      fieldTitle,
+      "<b>Stopp!</b><br><br>" + fieldText,
+      () => triggerGameEnd()
+    );
+    return;
+  }
+
   showPopup(
     fieldTitle,
-    "<b>Stopp!</b><br><br>"+ fieldText,
-    () => {
-      game.nextPlayer();
-      leaderboard?.update();
-    }
+    "<b>Stopp!</b><br><br>" + fieldText,
+    () => game.nextPlayer()
   );
   return;
 }
@@ -577,38 +608,47 @@ function continueAfterGroup() {
       return;
     }
 
-    //
-    // === RANDOM FIELD TEXT ===
-    //
-    if (handled?.type === "randomFieldText") {
+//
+// === RANDOM FIELD TEXT ===
+//
+if (handled?.type === "randomFieldText") {
 
-      let randomId;
-        do {
-          randomId = Math.floor(Math.random() * 72) + 1; // ← feste Obergrenze
-        } while (randomId === fieldId || randomId === 99);
+  let randomId;
+  do {
+    randomId = Math.floor(Math.random() * 72) + 1;
+  } while (randomId === fieldId || randomId === 99);
 
+  const randomData  = germanTexts[randomId];
+  const randomTitle = randomData?.title ?? "Zufälliges Feld";
+  const randomText  = randomData?.text  ?? "Kein Text vorhanden.";
 
-      const randomData = germanTexts[randomId];
-      const randomTitle = randomData?.title ?? "Zufälliges Feld";
-      const randomText  = randomData?.text  ?? "Kein Text vorhanden.";
+  showPopup(
+    fieldTitle,
+    `
+      ${fieldText}
+      <br><br>
+      <b>Zufälliges anderes Feld (${randomId}) wird ausgeführt!</b>
+    `,
+    () => {
 
-      showPopup(
-        fieldTitle,
-        `
-          ${fieldText}
-          <br><br>
-          <b>Zufälliges anderes Feld (${randomId}):</b><br>
-          <i>${randomTitle}</i><br>
-          ${randomText}
-        `,
-        () => {
-          game.nextPlayer();
-          leaderboard?.update();
-        }
-      );
+      // ⭐ Position merken
+      const originalPos = player.position;
 
-      return;
+      // ⭐ Feld komplett ausführen (inkl. dicePopup, Teleport, Stop, etc.)
+      game.callbacks.onLand(player, randomId);
+
+      // ⭐ Position zurücksetzen
+      player.position = originalPos;
+
+      // ⭐ Spielerwechsel
+      game.nextPlayer();
+      leaderboard?.update();
     }
+  );
+
+  return;
+}
+
 
     //
     // === DOUBLE ROLL SKIP + DRINK ===
@@ -933,43 +973,6 @@ if (handled?.type === "threeRolls") {
       game.nextPlayer();
       return;
     }
-  }
-
-    // === GAME END CHECK ===
-  const LAST_FIELD_ID = 72;
-
-  if (fieldId === LAST_FIELD_ID) {
-
-    // Gewinner bestimmen
-    const winner = player;
-
-    // Leaderboard sortieren
-    const ranking = [...game.getPlayers()].sort((a, b) => b.position - a.position);
-
-    const podiumHtml = ranking
-      .map((p, i) => `${i + 1}. ${p.name}`)
-      .join("<br>");
-
-    // Endscreen anzeigen
-    showPopup(
-      "Spiel beendet!",
-      `
-        ${winner.name} ist Pokémon-Meister!<br><br>
-        <b>Endstand:</b><br>
-        ${podiumHtml}
-      `,
-      () => {
-        // Optional: Seite neu laden oder Setup anzeigen
-        location.reload();
-      }
-    );
-
-    // Optional: Konfetti starten (Hook)
-    if (typeof startConfetti === "function") {
-      startConfetti();
-    }
-
-    return; // GANZ WICHTIG: Rest von onLand NICHT mehr ausführen
   }
 
   // -------------------------------------------------------

@@ -70,6 +70,7 @@ export function initControls(game, playerTokens) {
 
 function rollDice(manualValue = null) {
   const player = game.getCurrentPlayer();
+  const hadgate = !!player.gate;
   let result, gateFail, gateSuccess, multiGate;
 
   // Automatischer Wurf
@@ -79,7 +80,7 @@ function rollDice(manualValue = null) {
     if (!r) return;
     result = r.value;
     gateFail = r.gateFail;
-    gateSuccess = player.gate && !gateFail;
+    gateSuccess = hadgate && !gateFail;
     multiGate = r.multiGate;
   } 
   // Manuelle Eingabe
@@ -120,36 +121,27 @@ function rollDice(manualValue = null) {
     return;
   }
 
-  // 🔥 Gate-Success → Popup + Feldtext + Spielerwechsel
-if (gateSuccess) {
-  const player = game.getCurrentPlayer();
-  const fieldId = player.position;
-  const data = germanTexts[fieldId];
+    // 🔥 Gate-Success → Feld-Popup + Hinweis + danach Move
+  if (gateSuccess) {
+    const player = game.getCurrentPlayer();
+    const fieldId = player.position;
+    const data = germanTexts[fieldId];
 
-  const fieldTitle = data?.title ?? "Unbenanntes Feld";
-  const fieldText  = data?.text  ?? "Kein deutscher Text hinterlegt.";
+    const fieldTitle = data?.title ?? "Unbenanntes Feld";
+    const fieldText  = data?.text  ?? "Kein deutscher Text hinterlegt.";
 
-  // 1) Erfolgsmeldung
-  showPopup(
-    fieldTitle,
-    `Hurra, du hast gewonnen!`,
-    () => {
-
-      // 2) Danach Feldtext anzeigen
-      showPopup(
-        fieldTitle,
-        fieldText,
-        () => {
-          // 3) Danach Spielerwechsel
-          game.nextPlayer();
-        }
-      );
-
-    }
-  );
-
-  return;
-}
+    showPopup(
+      fieldTitle,
+      `
+        ${fieldText}<br><br>
+        <b>Du hast den Kampf gewonnen!</b><br>
+        Du darfst jetzt erneut würfeln um weiterzuziehen.
+      `,
+      () => {
+      }
+    );
+    return;
+  }
 
   // 🔥 Multi-Gate → Popup + Spielerwechsel
   if (multiGate) {

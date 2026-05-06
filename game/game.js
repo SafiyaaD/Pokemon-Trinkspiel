@@ -6,12 +6,10 @@ export function createGame({ hotspots, onMoveStep, onLand, onTurnChange }) {
     players: [],
     currentPlayerIndex: 0,
     isAnimating: false,
-    halfUntilPlayer: null
+    halfUntilPlayer: null,
   };
 
-  // 🔥 WICHTIG: Callbacks speichern!
-  const callbacks = { onMoveStep, onLand, onTurnChange };
-
+const callbacks = {onMoveStep, onLand, onTurnChange};
 
   // -------------------------------------------------------
   // Spieler setzen
@@ -98,13 +96,14 @@ function roll() {
   // 🔥 GateSuccess → Gate verbrauchen
   if (player.gate && player.gate.includes(rolledValue)) {
     player.gate = null;
+    return { value: rolledValue, gateFail: false, gateSuccess: true };
   }
 
   // 🔥 Bewegung mit moveValue
   moveCurrentPlayer(moveValue);
 
   // UI bekommt den ORIGINAL-Wurf
-  return { value: rolledValue, gateFail: false };
+  return { value: rolledValue, gateFail: false, gateSuccess: false };
 }
 
   // -------------------------------------------------------
@@ -204,13 +203,13 @@ for (let i = 0; i < path.length; i++) {
   // -------------------------------------------------------
   // Spielerwechsel
   // -------------------------------------------------------
-  function nextPlayer() {
-    state.currentPlayerIndex =
-      (state.currentPlayerIndex + 1) % state.players.length;
+function nextPlayer() {
 
-    // 🔥 WICHTIG: callbacks benutzen!
-    callbacks.onTurnChange?.(state.players[state.currentPlayerIndex]);
-  }
+  state.currentPlayerIndex =
+    (state.currentPlayerIndex + 1) % state.players.length;
+
+  callbacks.onTurnChange?.(state.players[state.currentPlayerIndex]);
+}
 
 
   // -------------------------------------------------------
