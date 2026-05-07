@@ -77,6 +77,7 @@ export function showPopup(title, text, action, options = {}) {
   // === PLAYER SELECTION POPUP ===
   //
   if (options.playerSelect) {
+    popupClose.classList.add("hidden");    
     options.playerSelect.forEach(player => {
       const btn = document.createElement("button");
       btn.textContent = player.name;
@@ -175,7 +176,6 @@ export function showPopup(title, text, action, options = {}) {
 
       popupText.innerHTML = `
         ${text}
-        <br><br>
         <b>Gewürfelt: ${roll}</b>
       `;
 
@@ -205,7 +205,7 @@ export function showPopup(title, text, action, options = {}) {
   diceBtn.onclick = null;
 
   // OK-Button nur anzeigen, wenn KEINE numberSelect-Buttons existieren
-  if (!options.numberSelect) {
+  if (!options.numberSelect && !options.playerSelect) {
     popupClose.classList.remove("hidden");
   }
 }

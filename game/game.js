@@ -188,8 +188,18 @@ for (let i = 0; i < path.length; i++) {
         player.hasMoved = true;
         state.isAnimating = false;
 
-        // Group wirkt nur solange man draufsteht
-        player.currentGroup = null;
+        const hotspot = state.hotspots.find(h => h.id === finalField);
+        const rules = Array.isArray(hotspot?.rules)
+          ? hotspot.rules
+          : hotspot?.rules
+            ? [hotspot.rules]
+            : [];
+
+        const hasGroup = rules.some(r => r.type === "group");
+
+        if (!hasGroup) {
+          player.currentGroup = null;
+        }
 
         callbacks.onLand?.(player, finalField);
       }

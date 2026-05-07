@@ -43,9 +43,9 @@ export const germanTexts = {
 
   22: { title: "Route 9", text: "Dein <b>Karpador</b> setzt <b>Platscher</b> ein.<br><br><b>Nichts geschieht!</b>" },
 
-  23: { title: "Felstunnel", text: "Dein <b>Sandan</b> setzt <b>Sandwirbel</b> ein.<br><br>Deine Genauigkeit sinkt.<br>Für den Rest des Spiels darfst du nur noch mit der schwachen Hand trinken.<br><b>(Buffalo Buffalo)</b>" },
+  23: { title: "Felstunnel", text: "Dein <b>Sandan</b> setzt <b>Sandwirbel</b> ein.<br><br>Deine <u> Genauigkeit </u> sinkt.<br>Für den Rest des Spiels darfst du nur noch mit der schwachen Hand trinken.<br><b>(Buffalo Buffalo)</b>" },
 
-  24: { title: "Lavandia City", text: "Dein Weg führt dich in den Pokémon-Tower.<br>Aus Respekt vor den Toten darfst du nicht sprechen. Sonst trinke 1 Schluck.<br><br><b><u>🍺 Jetzt trinke 1 für deine gefallenen Kameraden!</u></b>" },
+  24: { title: "Lavandia City", text: "Dein Weg führt dich in den Pokémon-Tower.<br>Aus Respekt vor den Toten darfst du nur Flüstern. Sonst trinke 1 Schluck.<br><br><b><u>🍺 Jetzt trinke 1 für deine gefallenen Kameraden!</u></b>" },
 
   25: { title: "Pokémon Turm Ebene 1", text: "Ein <b>Exorzist</b>!<br><br><b>👻 Du bist besessen!</b><br><b><u>Solange du hier bist, trinkst du alle Schlücke!</u></b>" },
 
@@ -89,7 +89,7 @@ export const germanTexts = {
 
   45: { title: "Saffronia Kampf-Dojo", text: "Du trainierst mit <b>Kicklee</b> und <b>Nockchan</b>.<br><br><b>⚔️ Schnick-Schnack-Schnuck!</b><br>Wähle einen Spieler.<br><b><u>Der Verlierer trinkt 2.</u></b>" },
 
-  46: { title: "Route 12 – 14", text: "Dein <b>Krabby</b> setzt <b>Krabhammer</b> ein.<br><br><b><u>🎯 Wähle einen Spieler und stampfe ihn in den Boden!</u></b><br>Der Spieler muss sein Getränk austrinken." },
+  46: { title: "Route 12 – 14", text: "Dein <b>Krabby</b> setzt <b>Krabhammer</b> ein.<br><br>🎯 Wähle einen Spieler und stampfe ihn in den Boden!<br><b><u>Der Spieler muss sein Getränk austrinken.</u></b>" },
 
   47: { title: "Route 15", text: "Dein <b>Ditto</b> setzt <b>Wandler</b> ein.<br><br><b><u>📜 Bestimme eine neue Regel.</u></b>" },
 
@@ -127,7 +127,7 @@ export const germanTexts = {
 
   64: { title: "Vertania Arena", text: "<b><u>Nidoking vs. Nidoqueen</u></b><br><b><u>🍺 Trinke 1!</u></b><br><br>Bist du ein Mann? Alle Männer trinken!<br>Bist du eine Frau? Alle Frauen trinken!" },
 
-  65: { title: "Route 23", text: "Dein <b>Ibitak</b> setzt <b>Spiegeltrick</b> ein.<br><br><b><u>Führe das Feld, vom Spieler der vor dir dran war, aus.</u></b>" },
+  65: { title: "Route 23", text: "Dein <b>Ibitak</b> setzt <b>Spiegeltrick</b> ein.<br><br><b><u>🍺🎯Trinke oder verteile das Gleiche wie der Spieler vor dir. </u></b> <br> Hatte sein Feld keinen Trink‑Effekt, trinkst du selbst 2." },
 
   66: { title: "Siegesstraße Ebene 1", text: "Dein <b>Georok</b> setzt <b>Einigler</b> ein.<br><br><b><u>Setze 2 Runden aus.</u></b><br>Währenddessen musst du nichts trinken." },
 

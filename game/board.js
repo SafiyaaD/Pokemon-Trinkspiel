@@ -29,9 +29,10 @@ export function renderHotspots(hotspots) {
     div.style.height = sizeH + '%';
 
     // Debug sichtbar
+    /*
     div.style.background = "rgba(255,0,0,0.25)";
     div.style.outline = "2px solid red";
-    div.style.position = "absolute";
+    div.style.position = "absolute";*/
 
     // 🔥 Klick-Handler für Popup + Pulsieren
     div.style.pointerEvents = "auto";

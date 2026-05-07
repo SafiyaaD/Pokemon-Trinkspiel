@@ -42,8 +42,17 @@ export function initSetup(game, hotspots, leaderboard) {
       img.className = "player-icon";
       token.appendChild(img);
 
+      // ⭐ NEU: Gruppen-Icon-Layer
+      const groupIcon = document.createElement("div");
+      groupIcon.className = "group-icon";
+      groupIcon.dataset.groupIcon = "";
+      token.appendChild(groupIcon);
+
       boardWrapper.appendChild(token);
       playerTokens.set(p.id, token);
+      const gamePlayer = game.getPlayers().find(gp => gp.id === p.id);
+      gamePlayer.tokenElement = token;
+
 
       movePlayerToken(p, 1, hotspots);
     });

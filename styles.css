@@ -118,7 +118,6 @@ html, body {
   position: absolute;
   width: 0;
   height: 0;
-
   transform: translate(-50%, -50%);
   z-index: 900;
   pointer-events: none;
@@ -126,6 +125,8 @@ html, body {
 }
 
 .player-icon {
+  position: relative;
+  z-index: 1;
   width: 96px;
   height: 96px;
   border-radius: 50%;
@@ -140,20 +141,19 @@ html, body {
 .player-green .player-icon { background: #43a047; }
 .player-yellow .player-icon {background: #f7d51d; }
 
-.player-icon::after {
-  content: attr(data-group-icon);
-  position: absolute;
-  bottom: -6px;
-  right: -6px;
-
-  font-size: 28px;        /* gut sichtbar, aber nicht zu groß */
-  line-height: 1;
-
+.group-icon {
+  position: relative;
+  transform: translatez(1px);
+  z-index: 2;
+  bottom: 100px;
+  right: 0px;
+  font-size: 28px;
   pointer-events: none;
-  transform: translate(0, 0);
-
-  /* Optional: leichter Glow für bessere Lesbarkeit */
   text-shadow: 0 0 4px rgba(0,0,0,0.6);
+}
+
+.group-icon::after {
+  content: attr(data-group-icon);
 }
 
 
@@ -351,6 +351,33 @@ html, body {
   border-color: #999;
   transform: translateY(-2px);
 }
+
+/* PlayerSelect Buttons – gleiche Funktion wie numberSelect, eigene Optik */
+.player-select {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin-top: 1rem;
+}
+
+.popup-player-btn {
+  padding: 0.8rem 1rem;
+  background: #f2f2f2;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.popup-player-btn:hover {
+  background: #e6e6e6;
+  border-color: #999;
+  transform: translateY(-2px);
+}
+
 
 #popup-dice {
   padding: 0.8rem 1.2rem;

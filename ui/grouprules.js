@@ -6,15 +6,22 @@ export const GROUP_RULES = {
     id: "Tower",
     name: "Pokémon-Turm (Lavandia)",
     icon: "👻",
-    description: "Pssst! Nicht sprechen…",
+    description: "Pssst!",
 
     onEnter(player, game, continueOnLand) {
       showPopup(
         "Pssst!",
-        "Nicht sprechen!",
+        "Nur Flüstern!",
         continueOnLand
       );
-    }
+    },
+    onTurn(player, game, done) {
+        showPopup(
+          "Pssst!",
+          "Du bist immer noch im Pokémon-Turm.<br>Nur flüstern!",
+          done
+        );
+      },
   },
 
   Silph: {
@@ -29,7 +36,14 @@ export const GROUP_RULES = {
         "Trink 2 um deine Nerven zu beruhigen!",
         continueOnLand
       );
-    }
+    },
+    onTurn(player, game, done) {
+    showPopup(
+      "Silph Co.",
+      "Du bist immer noch in der Silph Co.<br>Trink 2 um deine Nerven zu beruhigen!",
+      done
+    );
+  }
   },
 
   Safari: {
@@ -42,7 +56,7 @@ export const GROUP_RULES = {
 
     showPopup(
       "Safari Zone",
-      "Du bist in der Safari Zone! Würfle einmal.",
+      "Du bist in der Safari Zone!",
       null,
       {
         showDiceButton: true,
@@ -53,14 +67,14 @@ export const GROUP_RULES = {
           let resultText = "";
 
           if (roll <= 2) {
-            resultText = "Du wirfst einen Köder. Verteile 1 Schluck.";
+            resultText = "Du wirfst einen <u> Köder </u>. <br> <b> Verteile 1 Schluck.</b>";
           }
           else if (roll <= 4) {
             player.skipRounds = (player.skipRounds || 0) + 1;
-            resultText = "Du wirfst einen Stein. <br> Trink 4 und setze 1 Runde aus!";
+            resultText = "Du wirfst einen <u> Stein </u>. <br> <b> Trink 4 und setze 1 Runde aus!</b>";
           }
           else {
-            resultText = "Du wirfst einen Safariball. <br> <b>Trinke 2.</b> <br> Safaribälle sind einfach Scheiße.";
+            resultText = "Du wirfst einen <u> Safariball </u>. <br> <b>Trinke 2.</b> <br> Safaribälle sind einfach Scheiße.";
           }
 
           // Popup‑Text aktualisieren (Animation bleibt sichtbar!)
@@ -82,6 +96,53 @@ export const GROUP_RULES = {
         }
       }
     );
+  },
+
+  onTurn(player, game, done) {
+    showPopup(
+      "Safari Zone",
+      "Du bist immer noch in der Safari Zone!",
+      null,
+      {
+        showDiceButton: true,
+        onDice: (roll) => {
+
+          let resultText = "";
+
+          if (roll <= 2) {
+            resultText = "Du wirfst einen <u>Köder</u>.<br><b>Verteile 1 Schluck.</b>";
+          }
+          else if (roll <= 4) {
+
+          // ⭐ SPEZIALFALL: 4 → Zug SOFORT beenden
+          updatePopupText(`
+            Du wirfst einen <u>Stein</u>.<br>
+            <b>Trink 4 und setze 1 Runde aus!</b>
+          `);
+
+          showPopupOkButton();
+          setPopupAction(() => {
+            game.nextPlayer();
+            leaderboard?.update?.();
+          });
+
+          return;
+        }
+          else {
+            resultText = "Du wirfst einen <u>Safariball</u>.<br><b>Trinke 2.</b> <br> Safaribälle sind einfach Scheiße.";
+          }
+
+          updatePopupText(`
+            Du bist immer noch in der Safari Zone!<br>
+            <b>Gewürfelt: ${roll}</b><br><br>
+            ${resultText}
+          `);
+
+          showPopupOkButton();
+          setPopupAction(done);
+        }
+      }
+    );
   }
-}
+},
 };

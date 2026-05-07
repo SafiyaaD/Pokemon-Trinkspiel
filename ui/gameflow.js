@@ -101,7 +101,7 @@ game.nextPlayer = () => {
 
         // Token-Element holen (kann am Anfang noch NICHT existieren!)
         const tokenIconEl = player.tokenElement
-          ? player.tokenElement.querySelector(".player-icon")
+          ? player.tokenElement.querySelector(".group-icon")
           : null;
 
         if (groupId) {
@@ -274,15 +274,6 @@ if (hotspotGroupRule) {
 
   const groupRule = GROUP_RULES[groupId];
 
-  const tokenIconEl = player.tokenElement
-    ? player.tokenElement.querySelector(".player-icon")
-    : null;
-
-  if (tokenIconEl) {
-    const icon = groupRule?.icon || "";
-    tokenIconEl.dataset.groupIcon = icon;
-  }
-
   if (groupRule?.onEnter) {
 
     // Group-Popup öffnen → danach weiter mit continueAfterGroup()
@@ -297,7 +288,7 @@ if (hotspotGroupRule) {
 } else {
   // Group verlassen → Icon entfernen
   const tokenIconEl = player.tokenElement
-    ? player.tokenElement.querySelector(".player-icon")
+    ? player.tokenElement.querySelector(".group-icon")
     : null;
 
   if (tokenIconEl) tokenIconEl.dataset.groupIcon = "";
@@ -314,22 +305,51 @@ function triggerGameEnd() {
 
   const ranking = [...game.getPlayers()].sort((a, b) => b.position - a.position);
 
-  const podiumHtml = ranking
-    .map((p, i) => `${i + 1}. ${p.name}`)
-    .join("<br>");
+  const podiumHtml = `
+    <div style="display:flex; justify-content:center; gap:20px; margin-top:10px;">
+
+      <div style="text-align:center;">
+        <div style="font-size:32px;">🥈</div>
+        <div><b>${ranking[1]?.name ?? "-"}</b></div>
+      </div>
+
+      <div style="text-align:center;">
+        <div style="font-size:40px;">🥇</div>
+        <div><b>${ranking[0].name}</b></div>
+      </div>
+
+      <div style="text-align:center;">
+        <div style="font-size:32px;">🥉</div>
+        <div><b>${ranking[2]?.name ?? "-"}</b></div>
+      </div>
+
+    </div>
+  `;
 
   showPopup(
-    "Spiel beendet!",
+    "🎉 Spiel beendet! 🎉",
     `
-      ${player.name} ist Pokémon-Meister!<br><br>
-      <b>Endstand:</b><br>
+      <div style="font-size:22px; margin-bottom:10px;">
+        <b>${player.name}</b> ist Pokémon‑Meister!
+      </div>
+
       ${podiumHtml}
+
+      <br><br>
+      <div style="font-size:18px;">
+        <b>Kompletter Endstand:</b><br>
+        ${ranking.map((p, i) => `${i + 1}. ${p.name}`).join("<br>")}
+      </div>
     `,
     () => location.reload()
   );
 
-  if (typeof startConfetti === "function") startConfetti();
+  // ⭐ Konfetti starten – direkt nach Popup
+  if (typeof startConfetti === "function") {
+    setTimeout(() => startConfetti(), 50);
+  }
 }
+
 
 // -------------------------------------------------------
 // AFTER GROUP POPUP: Rest von onLand abarbeiten
@@ -342,62 +362,73 @@ function continueAfterGroup() {
   if (hotspot?.rules) {
     const handled = applyRule(hotspot.rules, player, game);
 
-    //
-    // === BACK ===
-    //
-    if (handled?.type === "back") {
-      showPopup(
-        "Wen willst du zurücksetzen?",
-        game.getPlayers().map(p => p.name).join("<br>"),
-        null,
-        {
-          playerSelect: game.getPlayers(),
-          onSelect: (selectedPlayer) => {
-            const steps = handled.steps;
-            const newPos = Math.max(1, selectedPlayer.position - steps);
+//
+// === BACK ===
+//
+if (handled?.type === "back") {
 
-            selectedPlayer.position = newPos;
-            game.callbacks.onMoveStep(selectedPlayer, newPos);
+  showPopup(
+    fieldTitle,     // ⭐ Titel des aktuellen Feldes
+    fieldText,      // ⭐ Text des aktuellen Feldes
+    null,           // ⭐ kein OK-Button
+    {
+      hideOk: true, // ⭐ OK-Button ausblenden (wie bei chooseRerollOrIgnoreStop)
+      playerSelect: game.getPlayers(),
 
-            leaderboard?.update();
+      onSelect: (selectedPlayer) => {
+
+        const steps = handled.steps;
+        const newPos = Math.max(1, selectedPlayer.position - steps);
+
+        selectedPlayer.position = newPos;
+        game.callbacks.onMoveStep(selectedPlayer, newPos);
+
+        leaderboard?.update();
+        game.nextPlayer();
+      }
+    }
+  );
+
+  return;
+}
+
+
+    //
+// === GIVE GATE TO PLAYER ===
+//
+if (handled?.type === "giveGateToPlayer") {
+
+  showPopup(
+    fieldTitle,   // ⭐ Titel des aktuellen Feldes
+    fieldText,    // ⭐ Text des aktuellen Feldes
+    null,         // ⭐ kein OK-Button
+    {
+      hideOk: true,               // ⭐ OK-Button ausblenden
+      playerSelect: game.getPlayers(),
+
+      onSelect: (selectedPlayer) => {
+
+        selectedPlayer.gate = handled.requiredRolls;
+
+        showPopup(
+          "Blockiert!",
+          `
+            <b>${selectedPlayer.name}</b> ist blockiert,<br>
+            bis er eine der folgenden Zahlen würfelt:<br>
+            <b>${handled.requiredRolls.join(", ")}</b>
+          `,
+          () => {
             game.nextPlayer();
+            leaderboard?.update();
           }
-        }
-      );
-      return;
+        );
+      }
     }
+  );
 
-    //
-    // === GIVE GATE TO PLAYER ===
-    //
-    if (handled?.type === "giveGateToPlayer") {
-      showPopup(
-        "Wen willst du blockieren?",
-        game.getPlayers().map(p => p.name).join("<br>"),
-        null,
-        {
-          playerSelect: game.getPlayers(),
-          onSelect: (selectedPlayer) => {
+  return;
+}
 
-            selectedPlayer.gate = handled.requiredRolls;
-
-            showPopup(
-              "Blockiert!",
-              `
-                <b>${selectedPlayer.name}</b> ist blockiert,<br>
-                bis er eine der folgenden Zahlen würfelt:<br>
-                <b>${handled.requiredRolls.join(", ")}</b>
-              `,
-              () => {
-                game.nextPlayer();
-                leaderboard?.update();
-              }
-            );
-          }
-        }
-      );
-      return;
-    }
 
     //
     // === REROLL ===
@@ -457,7 +488,7 @@ if (handled?.type === "stop") {
     if (handled?.type === "skip") {
       showPopup(
         fieldTitle,
-        fieldText + `<br><br><b>${handled.rounds} Runde(n) aussetzen!</b>`,
+        fieldText,
         () => {
           game.nextPlayer();
           leaderboard?.update();
@@ -614,9 +645,20 @@ if (handled?.type === "stop") {
 if (handled?.type === "randomFieldText") {
 
   let randomId;
-  do {
+
+  while (true) {
     randomId = Math.floor(Math.random() * 72) + 1;
-  } while (randomId === fieldId || randomId === 99);
+
+    if (randomId === fieldId) continue;
+    if (randomId === 99) continue;
+
+    const hs = hotspots[randomId - 1];
+    const hasRule = hs?.rules && Object.keys(hs.rules).length > 0;
+
+    if (hasRule) continue;   // ⭐ Felder mit Regeln ausschließen
+
+    break;
+  }
 
   const randomData  = germanTexts[randomId];
   const randomTitle = randomData?.title ?? "Zufälliges Feld";
@@ -627,20 +669,11 @@ if (handled?.type === "randomFieldText") {
     `
       ${fieldText}
       <br><br>
-      <b>Zufälliges anderes Feld (${randomId}) wird ausgeführt!</b>
+      <b>Zufälliges anderes Feld (${randomId}):</b><br>
+      <i>${randomTitle}</i><br>
+      ${randomText}
     `,
     () => {
-
-      // ⭐ Position merken
-      const originalPos = player.position;
-
-      // ⭐ Feld komplett ausführen (inkl. dicePopup, Teleport, Stop, etc.)
-      game.callbacks.onLand(player, randomId);
-
-      // ⭐ Position zurücksetzen
-      player.position = originalPos;
-
-      // ⭐ Spielerwechsel
       game.nextPlayer();
       leaderboard?.update();
     }
@@ -648,7 +681,6 @@ if (handled?.type === "randomFieldText") {
 
   return;
 }
-
 
     //
     // === DOUBLE ROLL SKIP + DRINK ===
@@ -905,7 +937,8 @@ if (handled?.type === "threeRolls") {
               updatePopupText(`
                 <b>Gewürfelt: ${roll}</b> (ungerade)
                 <br><br>
-                Insgesamt hast du <b>${evenCount}</b> mal eine gerade Zahl gewürfelt.
+                Insgesamt hast du <b>${evenCount}</b> mal eine gerade Zahl gewürfelt.<br>
+                Trinke <b>${evenCount*2}</b> Schlücke.
               `);
 
               showPopupOkButton();
@@ -990,14 +1023,35 @@ if (handled?.type === "threeRolls") {
 }
 
 game.callbacks.onTurnChange = (player) => {
-  currentPlayerLabel.textContent = player.name;
+
   zoomToPlayer(player, playerTokens);
+
+  // -------------------------------------------------------
+  // ⭐ GROUP: Regel am Anfang des Zugs ausführen
+  // -------------------------------------------------------
+  const groupId = player.currentGroup;
+  const groupRule = GROUP_RULES[groupId];
+
+  if (groupRule?.onTurn) {
+
+    // Turn pausieren, aber NICHT abbrechen
+    groupRule.onTurn(player, game, () => {
+      runTurnStartUI(player);
+    });
+
+    return;
+  }
+
+  runTurnStartUI(player);
+};
+
+function runTurnStartUI(player) {
+  currentPlayerLabel.textContent = player.name;
 
   playerTokens.forEach((t, id) => {
     t.style.zIndex = id === player.id ? 999 : 900;
   });
 
-  // Halbierungsregel endet, wenn der Auslöser wieder dran ist
   if (game.state.halfUntilPlayer === player.id) {
     game.state.halfUntilPlayer = null;
   }
@@ -1005,7 +1059,99 @@ game.callbacks.onTurnChange = (player) => {
   askForPokemon(player);
   restackField(player.position, hotspots);
   leaderboard?.update();
-};
+}
+
+function startConfetti() {
+  const canvas = document.createElement("canvas");
+  canvas.style.position = "fixed";
+  canvas.style.top = "0";
+  canvas.style.left = "0";
+  canvas.style.width = "100%";
+  canvas.style.height = "100%";
+  canvas.style.pointerEvents = "none";
+  canvas.style.zIndex = "99999";
+  document.body.appendChild(canvas);
+
+  const ctx = canvas.getContext("2d");
+  const w = canvas.width = window.innerWidth;
+  const h = canvas.height = window.innerHeight;
+
+  const pokeballs = [];
+
+  // Pokéball zeichnen
+  function drawPokeball(x, y, size, rotation) {
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.rotate(rotation);
+
+    // Außenkreis
+    ctx.beginPath();
+    ctx.arc(0, 0, size, 0, Math.PI * 2);
+    ctx.fillStyle = "white";
+    ctx.fill();
+
+    // Obere Hälfte rot
+    ctx.beginPath();
+    ctx.arc(0, 0, size, Math.PI, 0);
+    ctx.fillStyle = "#ff1c1c";
+    ctx.fill();
+
+    // Schwarzer Mittelstreifen
+    ctx.fillStyle = "black";
+    ctx.fillRect(-size, -size * 0.15, size * 2, size * 0.3);
+
+    // Weißer Mittelkreis
+    ctx.beginPath();
+    ctx.arc(0, 0, size * 0.35, 0, Math.PI * 2);
+    ctx.fillStyle = "white";
+    ctx.fill();
+
+    // Schwarzer Rand
+    ctx.lineWidth = size * 0.1;
+    ctx.strokeStyle = "black";
+    ctx.stroke();
+
+    ctx.restore();
+  }
+
+  // Pokébälle erzeugen
+  for (let i = 0; i < 40; i++) {
+    pokeballs.push({
+      x: Math.random() * w,
+      y: Math.random() * -h,
+      size: 12 + Math.random() * 18,
+      speed: 2 + Math.random() * 3,
+      rotation: Math.random() * Math.PI * 2,
+      rotationSpeed: (Math.random() - 0.5) * 0.1
+    });
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, w, h);
+
+    pokeballs.forEach(p => {
+      p.y += p.speed;
+      p.rotation += p.rotationSpeed;
+
+      drawPokeball(p.x, p.y, p.size, p.rotation);
+
+      if (p.y > h + p.size) {
+        p.y = -p.size;
+        p.x = Math.random() * w;
+      }
+    });
+
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+
+  // Konfetti nach 6 Sekunden entfernen
+  setTimeout(() => {
+    canvas.remove();
+  }, 6000);
+}
+
 
   return game;
 }
