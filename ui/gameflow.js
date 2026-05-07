@@ -503,7 +503,7 @@ if (handled?.type === "stop") {
     if (handled?.type === "gate") {
       showPopup(
         fieldTitle,
-        fieldText + `<br><br><b> Du sitzt fest, bis du ${handled.requiredRolls} gewürfelt hast!</b>`,
+        fieldText + `<br><br><b> Du sitzt fest. Du brauchst 1 Treffer (${handled.requiredRolls.join(" oder ")})!</b>`,
         () => {
           game.nextPlayer();
           leaderboard?.update();

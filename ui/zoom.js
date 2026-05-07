@@ -15,6 +15,24 @@ export function zoomToFullBoard() {
   boardViewport.style.transform =
     `translate(${offsetX}px, ${offsetY}px) scale(${zoom})`;
 }
+function getAdaptiveZoom() {
+  const w = window.innerWidth;
+  const h = window.innerHeight;
+  const dpr = window.devicePixelRatio || 1;
+
+  // Smartphones (Portrait)
+  if (w < 900) {
+    return 0.85; // sanfter Zoom
+  }
+
+  // Tablets (iPad, Android Tablets)
+  if (dpr >= 2 && w < 1400) {
+    return 1.05; // leicht abgeschwächt
+  }
+
+  // Desktop
+  return 1.25; // dein normaler Wert
+}
 
 export function zoomToPlayer(player, playerTokens) {
   const token = playerTokens.get(player.id);
@@ -23,7 +41,8 @@ export function zoomToPlayer(player, playerTokens) {
   const vw = boardViewport.clientWidth;
   const vh = boardViewport.clientHeight;
 
-  const zoom = 1.25;
+  const zoom = getAdaptiveZoom();
+
   const offsetX = vw / 2 - token.offsetLeft * zoom;
   const offsetY = vh / 2 - token.offsetTop * zoom;
 
