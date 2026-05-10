@@ -37,7 +37,7 @@ export const germanTexts = {
 
   19: { title: "MS Anne", text: "Genieße deine Fahrt auf der <b>MS Anne</b>.<br><br>🚢 Lehne dich zurück und genieße die Aussicht." },
 
-  20: { title: "Orania Arena", text: "<b>🎲 Würfel!</b><br><br><b>Gerade: Du bist paralysiert!</b><br>Du kannst dich nicht bewegen. <b><u>🍺 Trinke 2!</u></b><br><br><b>Ungerade: Du hast gewonnen!</b><br><b><u>🍻 Stoße an und trinke 1!</u></b>" },
+  20: { title: "Orania Arena", text: "<b>🎲 Nächste Runde Kämpfst du!</b><br><br><b>Gerade: Du bist paralysiert!</b><br>Du kannst dich nicht bewegen. <b><u>🍺 Trinke 2!</u></b><br><br><b>Ungerade: Du hast gewonnen!</b><br><b><u>🍻 Stoße an und trinke 1!</u></b>" },
 
   21: { title: "Fahrrad Shop", text: "🚲 Mit deinem Gutschein kaufst du dir ein <b>Fahrrad</b>." },
 
@@ -45,7 +45,7 @@ export const germanTexts = {
 
   23: { title: "Felstunnel", text: "Dein <b>Sandan</b> setzt <b>Sandwirbel</b> ein.<br><br>Deine <u> Genauigkeit </u> sinkt.<br>Für den Rest des Spiels darfst du nur noch mit der schwachen Hand trinken.<br><b>(Buffalo Buffalo)</b>" },
 
-  24: { title: "Lavandia City", text: "Dein Weg führt dich in den Pokémon-Tower.<br>Aus Respekt vor den Toten darfst du nur Flüstern. Sonst trinke 1 Schluck.<br><br><b><u>🍺 Jetzt trinke 1 für deine gefallenen Kameraden!</u></b>" },
+  24: { title: "Lavandia City", text: "Dein Weg führt dich in den Pokémon-Turm.<br>Aus Respekt vor den Toten darfst du nur Flüstern. Sonst trinke 1 Schluck.<br><br><b><u>🍺 Jetzt trinke 1 für deine gefallenen Kameraden!</u></b>" },
 
   25: { title: "Pokémon Turm Ebene 1", text: "Ein <b>Exorzist</b>!<br><br><b>👻 Du bist besessen!</b><br><b><u>Solange du hier bist, trinkst du alle Schlücke!</u></b>" },
 
@@ -63,7 +63,7 @@ export const germanTexts = {
 
   32: { title: "Prismania City", text: "<b>Evoli</b> entwickelt sich!<br><br><b><u>📜 Du bestimmst eine neue Regel!</u></b><br>Wer die Regel bricht, trinkt 1!" },
 
-  33: { title: "Prismania Arena", text: "<b>Nächste Runde kämpfst du!</b><br><br><b>1–3: Dein Gegner setzt Stachelspore ein!</b><br>Du kannst dich nicht bewegen.<br><b>4–6: Du setzt Megasauger ein!</b><br><b><u> Du gewinnst! 🍺 Trinke aus!</u></b>" },
+  33: { title: "Prismania Arena", text: "<b>Nächste Runde kämpfst du!</b><br><br><b>1–3: Dein Gegner setzt Stachelspore ein! Verteile 1 Schluck!</b><br>Du kannst dich nicht bewegen.<br><b>4–6: Du setzt Megasauger ein!</b><br><b><u> Du gewinnst! 🍺 Trinke aus!</u></b>" },
 
   34: { title: "Route 7", text: "Wer ist das langsamste <b>Enton</b> der Gruppe?<br><br><b><u>👑 Du bist ab jetzt der Daumenkönig!</u></b>" },
 
@@ -113,7 +113,7 @@ export const germanTexts = {
 
   57: { title: "Route 21", text: "Dein <b>Golking</b> setzt <b>Wasserfall</b> ein.<br><br><b><u>💧 Starte den Wasserfall!</u></b><br><br>Wasserfall, Wasserfall, Wasserfaaaaall!" },
 
-  58: { title: "Zinnober Insel", text: "Ein wildes <b>Missingno</b> erscheint.<br><br><b>🎲 Würfle 3×.</b><br>Schaffst du keine 5 oder 6, glitcht dein Spielstand und du startest in Alabastia." },
+  58: { title: "Zinnober Insel", text: "Ein wildes <b>MissingNo</b> erscheint.<br><br><b>🎲 Würfle 3×.</b><br>Schaffst du keine 5 oder 6, glitcht dein Spielstand und du startest in Alabastia." },
 
   59: { title: "Zinnober Arena", text: "<b>🎲 Würfel!</b><br><br>Gerade: Würfle erneut.<br>Ungerade: <b><u>🍺 Trinke so oft, wie zuvor „Gerade“ gewürfelt wurde.</u></b>" },
 
@@ -139,7 +139,7 @@ export const germanTexts = {
 
   70: { title: "Top 4", text: "Bist du stark genug für die Top 4?<br><br><b>🎲 Würfle eine 4, um zu gewinnen.</b><br>Andernfalls <b><u>🍺 trinke 4.</u></b>" },
 
-  71: { title: "Champion Rivale", text: "Erneut dieser <b>Braunschweig-Fan</b>.<br><br><b><u>🍺 Trinke ein volles Getränk aus, um dieses Arschloch zu besiegen.</u></b><br>Du darfst erst weitergehen, wenn du ausgetrunken hast." },
+  71: { title: "Champion Rivale", text: "Erneut dieses <b>Braunschweig-Arschloch</b>.<br><br> Schieß ihm Leuchtraketen hinterher! Hast du ihn getroffen? <b><u>🍺 Dann wird ein volles Getränk gesoffen</u></b><br>Dann gibt es dieses Schwein nicht mehr." },
 
   72: { title: "Pokémon Meister!", text: "Du bist der <b>Pokémon-Meister</b>.<br><br>Wirf deinen Meisterball und <b><u>🍺 trinke einen letzten Schluck.</u></b>" },
 

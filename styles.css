@@ -57,59 +57,126 @@ html, body {
 }
 
 /* =========================================================
-   4) Bottom Controls
+   Bottom Controls – Gaming HUD Pokémon Style
    ========================================================= */
+
 .controls {
-  position: fixed;
+   position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
 
+  box-sizing: border-box; /* <– wichtig */
+
+  background: rgba(20, 20, 20, 0.55);
+  backdrop-filter: blur(10px) saturate(140%);
+  border-top: 2px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 18px rgba(255, 203, 5, 0.25);
+
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
 
-  padding: 0.6rem 1rem;
-  box-sizing: border-box;
-  background: rgba(0,0,0,0.55);
-  backdrop-filter: blur(6px);
-  border-top: 1px solid rgba(255,255,255,0.15);
+  padding: clamp(0.4rem, 1vw, 0.9rem) clamp(0.8rem, 2vw, 2rem);
+  gap: clamp(0.4rem, 1vw, 1.2rem);
 
   z-index: 5000;
-  font-size: 0.95rem;
-  gap: 1rem;
+  font-size: clamp(0.8rem, 1.2vw, 1.1rem);
 }
 
-.left-controls,
-.right-controls {
+/* Linke & rechte Seite */
+.left-controls{
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: clamp(0.4rem, 1vw, 1.2rem);
 }
 
 .right-controls {
-  padding-right: 1rem;
+  max-width: 40%;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  display: flex;
+  align-items: center;
+  gap: clamp(0.4rem, 1vw, 1.2rem);
 }
 
+/* Buttons – Pokémon Style */
 .controls button {
-  padding: 0.45rem 0.9rem;
-  font-size: 0.9rem;
-  border-radius: 6px;
-  border: none;
-  background: rgba(255,255,255,0.15);
-  color: #fff;
+  padding: clamp(0.35rem, 0.7vw, 0.7rem) clamp(0.7rem, 1.2vw, 1.2rem);
+
+  background: linear-gradient(180deg, #ffcb05, #e6b600);
+  color: #000;
+
+  border: 2px solid #000;
+  border-radius: 10px;
+
+  font-size: clamp(0.8rem, 1vw, 1.1rem);
+  font-weight: 700;
+
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: transform 0.15s ease, background 0.2s ease;
+
+  box-shadow: 0 0 10px rgba(255, 203, 5, 0.4);
 }
 
 .controls button:hover {
-  background: rgba(255,255,255,0.25);
+  transform: translateY(-2px);
+  background: #ffdb33;
 }
 
+/* Roll Result – HUD Text */
 #roll-result {
-  font-size: 0.85rem;
-  opacity: 0.85;
+  font-size: clamp(0.8rem, 1.1vw, 1.2rem);
+  font-weight: 700;
+
+  /* Pokémon‑Gelb Glow */
+  color: #ffcb05;
+  text-shadow:
+    0 0 6px rgba(255, 203, 5, 0.7),
+    0 0 12px rgba(255, 203, 5, 0.4),
+    0 0 18px rgba(255, 203, 5, 0.25);
+
+  opacity: 1;
+  letter-spacing: 0.5px;
 }
+
+#manual-roll {
+  width: clamp(40px, 4vw, 60px);
+  padding: clamp(0.25rem, 0.5vw, 0.45rem);
+
+  background: rgba(20, 20, 20, 0.55);
+  backdrop-filter: blur(6px) saturate(140%);
+  color: #ffcb05;
+
+  border: 2px solid #ffcb05;
+  border-radius: 8px;
+
+  font-size: clamp(0.8rem, 1vw, 1.1rem);
+  font-weight: 700;
+  text-align: center;
+
+  box-shadow: 0 0 10px rgba(255, 203, 5, 0.35);
+
+  outline: none;
+  appearance: textfield;
+
+  /* verhindert, dass es die Buttons verdrängt */
+  flex-shrink: 0;
+}
+
+/* Entfernt die Pfeile bei Chrome/Edge */
+#manual-roll::-webkit-inner-spin-button,
+#manual-roll::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Placeholder im HUD‑Style */
+#manual-roll::placeholder {
+  color: rgba(255, 203, 5, 0.6);
+}
+
 
 /* =========================================================
    5) Spieler-Token
@@ -179,20 +246,24 @@ html, body {
 }
 
 /* =========================================================
-   7) 3D-Würfel
+   7) 3D-Würfel – klassisch, leicht modernisiert
    ========================================================= */
 #dice-container {
   position: fixed;
-  bottom: 80px;
-  right: 80px;
+  bottom: clamp(60px, 7vw, 110px);
+  right: clamp(40px, 6vw, 80px);
+  perspective: none;
   z-index: 7000;
   pointer-events: auto;
+  
+  filter: none;
 }
 
 .dice {
   position: relative;
-  width: 96px;
-  height: 96px;
+  perspective: none;
+  width: clamp(60px, 6vw, 110px);
+  height: clamp(60px, 6vw, 110px);
   transform-style: preserve-3d;
   transform: rotateX(15deg) rotateY(-15deg);
   transition: transform 0.6s ease;
@@ -203,12 +274,12 @@ html, body {
   transition: transform 0.3s ease;
 }
 
+/* Faces – klassisch weiß, leicht moderner Schatten */
 .dice .face,
 .face-number {
   position: absolute;
   width: 100%;
   height: 100%;
-  background: linear-gradient(145deg, #ffffff, #e6e6e6);
   color: #000;
   border: 2px solid #000;
   border-radius: 12px;
@@ -217,12 +288,14 @@ html, body {
   justify-content: center;
   font-weight: 700;
   font-size: 0;
+  background: #ffffff; /* echtes Weiß, kein Gradient */
   box-shadow:
-    inset 0 0 6px rgba(0,0,0,0.25),
-    0 3px 6px rgba(0,0,0,0.25);
+  inset 0 0 2px rgba(0,0,0,0.15),
+  0 2px 4px rgba(0,0,0,0.15); /* viel leichter */
+
 }
 
-/* Sonderwerte */
+/* Sonderwerte – wie vorher, nur neutral */
 .face-number {
   transform: translateZ(48px);
   font-size: 2.4rem !important;
@@ -243,10 +316,11 @@ html, body {
   position: relative;
 }
 
+/* Pips – klassisch schwarz, leicht moderner Look */
 .pip {
   position: absolute;
-  width: 22%;   /* proportional */
-  height: 22%;  /* proportional */
+  width: 22%;
+  height: 22%;
   background: radial-gradient(circle at 30% 30%, #000, #222 60%, #000 100%);
   border-radius: 50%;
   box-shadow:
@@ -254,7 +328,7 @@ html, body {
     inset 0 0 2px rgba(255,255,255,0.4);
 }
 
-/* Positionen im 3×3 Raster, PROZENTUAL */
+/* Positionen im 3×3 Raster */
 .pip-top-left     { top: 12%; left: 12%; }
 .pip-top-right    { top: 12%; right: 12%; }
 .pip-mid-left     { top: 39%; left: 12%; }
@@ -264,13 +338,11 @@ html, body {
 .pip-center       { top: 39%; left: 39%; }
 
 
-
-
-
 /* ============================================
    8)  Modernes Popup-Redesign
    ============================================ */
 .popup {
+  padding: 1rem;
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,0.6);
@@ -289,7 +361,9 @@ html, body {
   color: #111;
   padding: 2rem 2.2rem;
   border-radius: 16px;
-  width: min(360px, 90vw);
+  width: clamp(280px, 40vw, 520px);
+  max-height: 80vh;
+  overflow-y: auto;
   box-shadow: 0 12px 40px rgba(0,0,0,0.35);
   text-align: center;
 
@@ -300,20 +374,20 @@ html, body {
 
 /* Titel */
 #popup-title {
-  font-size: 1.6rem;
+  font-size: clamp(1.3rem, 2vw, 2rem);
   font-weight: 700;
   margin-bottom: 0.6rem;
 }
 
 /* Text */
 #popup-text {
-  font-size: 1rem;
+  font-size: clamp(0.9rem, 1vw, 1.2rem);
   margin-bottom: 1.4rem;
 }
 
 /* OK-Button modern */
 #popup-close {
-  padding: 0.8rem 1.2rem;
+  padding: clamp(0.6rem, 1vw, 1rem) clamp(0.8rem, 1.2vw, 1.4rem);
   background: #ffcb05;
   border: none;
   border-radius: 10px;
@@ -336,11 +410,11 @@ html, body {
 }
 
 .number-btn {
-  padding: 0.8rem 1rem;
+  padding: clamp(0.6rem, 1vw, 1rem) clamp(0.8rem, 1.2vw, 1.4rem);
   background: #f2f2f2;
   border: 2px solid #ccc;
   border-radius: 10px;
-  font-size: 1rem;
+  font-size: clamp(0.9rem, 1.2vw, 1.3rem);
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -361,11 +435,11 @@ html, body {
 }
 
 .popup-player-btn {
-  padding: 0.8rem 1rem;
+  padding: clamp(0.6rem, 1vw, 1rem) clamp(0.8rem, 1.2vw, 1.4rem);
   background: #f2f2f2;
   border: 2px solid #ccc;
   border-radius: 10px;
-  font-size: 1rem;
+  font-size: clamp(0.9rem, 1.2vw, 1.3rem);
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -380,11 +454,11 @@ html, body {
 
 
 #popup-dice {
-  padding: 0.8rem 1.2rem;
+  padding: clamp(0.6rem, 1vw, 1rem) clamp(0.8rem, 1.2vw, 1.4rem);
   background: #ffcb05;
   border: none;
   border-radius: 10px;
-  font-size: 1rem;
+  font-size: clamp(0.9rem, 1.2vw, 1.3rem);
   font-weight: 600;
   cursor: pointer;
   width: 100%;
@@ -554,75 +628,147 @@ html, body {
 }
 
 /* =========================================================
-   12) Leaderboard
+   12) Leaderboard – Gaming HUD Pokémon Style
    ========================================================= */
 
 #leaderboard {
   position: absolute;
   left: 0;
   top: 0;
-  width: 260px;
+
+  /* Dynamische Breite */
+  width: clamp(220px, 22vw, 340px);
   height: 100%;
-  background: rgba(0,0,0,0.75);
+
+  /* Pokémon‑HUD Look */
+  background: rgba(20, 20, 20, 0.55);
+  backdrop-filter: blur(10px) saturate(140%);
+  border-right: 2px solid rgba(255, 255, 255, 0.15);
+
+  /* Neon‑Glow */
+  box-shadow: 0 0 18px rgba(255, 203, 5, 0.25);
+
   color: #fff;
-  font-family: sans-serif;
   transform: translateX(-100%);
-  transition: transform 0.3s ease;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+
   display: flex;
   flex-direction: column;
-  z-index: 2000; /* über UI, aber unter Modals */
+  z-index: 2000;
+
+  font-size: clamp(0.8rem, 1vw, 1rem);
 }
 
 #leaderboard.open {
   transform: translateX(0);
 }
 
+/* Toggle Button – Gaming Style */
 #leaderboard-toggle {
   position: absolute;
-  right: -24px;
-  top: 20px;
-  width: 24px;
-  height: 48px;
-  background: rgba(0,0,0,0.75);
-  color: #fff;
+  right: -32px;
+  top: clamp(14px, 3vw, 32px);
+
+  width: clamp(26px, 2.4vw, 36px);
+  height: clamp(52px, 4.4vw, 70px);
+
+  background: linear-gradient(180deg, #ffcb05, #e6b600);
+  color: #000;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   cursor: pointer;
-  border-radius: 0 6px 6px 0;
+  border-radius: 0 10px 10px 0;
   user-select: none;
-  font-size: 18px;
-}
 
-#leaderboard-content {
-  padding: 20px;
-  overflow-y: auto;
-}
+  font-size: clamp(16px, 1.4vw, 24px);
+  font-weight: 700;
 
-.leaderboard-player {
-  margin-bottom: 12px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid rgba(255,255,255,0.2);
-}
-
-.leaderboard-player-name {
-  font-weight: bold;
-  margin-bottom: 4px;
-}
-
-.lb-color {
-  display: inline-block;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  margin-right: 6px;
-  vertical-align: middle;
+  box-shadow: 0 0 10px rgba(255, 203, 5, 0.6);
   border: 2px solid #000;
 }
 
+/* Inhalt */
+#leaderboard-content {
+  padding: clamp(14px, 2vw, 26px);
+  overflow-y: auto;
+}
+
+/* Spieler-Einträge als HUD Cards */
+.leaderboard-player {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+
+  padding: clamp(10px, 1.4vw, 16px);
+  margin-bottom: clamp(10px, 1.4vw, 18px);
+
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(6px);
+
+  transition: transform 0.15s ease, background 0.2s ease;
+}
+
+.leaderboard-player:hover {
+  transform: translateX(4px);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* Spielername */
+.leaderboard-player-name {
+  font-weight: 700;
+  margin-bottom: clamp(4px, 0.6vw, 8px);
+  font-size: clamp(1rem, 1.2vw, 1.3rem);
+  text-shadow: 0 0 6px rgba(255, 203, 5, 0.4);
+}
+
+/* Farbpunkte – Pokémon Glow */
+.lb-color {
+  display: inline-block;
+  width: clamp(12px, 1vw, 18px);
+  height: clamp(12px, 1vw, 18px);
+  border-radius: 50%;
+  margin-right: clamp(6px, 0.8vw, 10px);
+  vertical-align: middle;
+  border: 2px solid #000;
+  box-shadow: 0 0 6px currentColor;
+}
+
 /* Farben passend zu deinen Token-Klassen */
-.lb-color.neutral { background: #999; }
-.lb-color.red     { background: #e53935; }
-.lb-color.blue    { background: #1e88e5; }
-.lb-color.green   { background: #43a047; }
-.lb-color.yellow {background: #f7d51d; }
+.lb-color.neutral { background: #999; color: #999; }
+.lb-color.red     { background: #e53935; color: #e53935; }
+.lb-color.blue    { background: #1e88e5; color: #1e88e5; }
+.lb-color.green   { background: #43a047; color: #43a047; }
+.lb-color.yellow  { background: #f7d51d; color: #f7d51d; }
+
+/* Mobile Optimierung */
+@media (max-width: 480px) {
+  #leaderboard {
+    width: 70vw;
+  }
+
+  #leaderboard-toggle {
+    right: -26px;
+  }
+}
+
+/* Ultra-Wide Optimierung */
+@media (min-width: 1600px) {
+  #leaderboard {
+    width: clamp(260px, 18vw, 420px);
+  }
+}
+
+@media (max-width: 480px) {
+  .popup-content {
+    width: 90vw;
+    padding: 1.4rem;
+  }
+}
+@media (min-width: 1600px) {
+  .popup-content {
+    width: clamp(320px, 30vw, 600px);
+  }
+}

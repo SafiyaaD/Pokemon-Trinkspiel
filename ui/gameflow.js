@@ -176,8 +176,8 @@ if (!player._battleDone && !player._battleReturning) {
     if (r2.final > r1.final) winner = p2;
 
     const text = `
-      <b>${p1.name}</b> würfelt: ${r1.rolls.join(", ")} → <b>${r1.final}</b> ${p1HasAdv ? "(Vorteil)" : ""}<br>
-      <b>${p2.name}</b> würfelt: ${r2.rolls.join(", ")} → <b>${r2.final}</b> ${p2HasAdv ? "(Vorteil)" : ""}<br><br>
+      <b>${p1.name}</b> würfelt: ${r1.rolls.join(" & ")} → <b>${r1.final}</b> ${p1HasAdv ? "(Typen-Vorteil)" : ""}<br>
+      <b>${p2.name}</b> würfelt: ${r2.rolls.join(" & ")} → <b>${r2.final}</b> ${p2HasAdv ? "(Typen-Vorteil)" : ""}<br><br>
       ${winner ? `<b>${winner.name}</b> gewinnt den Kampf!` : "Unentschieden!"}
     `;
 
@@ -236,12 +236,12 @@ if (!player._battleDone && !player._battleReturning) {
         if (r2.final > r1.final) winner = p2;
 
         const text = `
-          <b>${p1.name}</b> würfelt: ${r1.rolls.join(", ")} → <b>${r1.final}</b> ${p1HasAdv ? "(Vorteil)" : ""}<br>
-          <b>${p2.name}</b> würfelt: ${r2.rolls.join(", ")} → <b>${r2.final}</b> ${p2HasAdv ? "(Vorteil)" : ""}<br><br>
+          <b>${p1.name}</b> würfelt: ${r1.rolls.join(" & ")} → <b>${r1.final}</b> ${p1HasAdv ? "(Typen-Vorteil)" : ""}<br>
+          <b>${p2.name}</b> würfelt: ${r2.rolls.join(" & ")} → <b>${r2.final}</b> ${p2HasAdv ? "(Typen-Vorteil)" : ""}<br><br>
           ${winner ? `<b>${winner.name}</b> gewinnt den Kampf!</b>` : "Unentschieden!"}
         `;
 
-        showPopup(`Kampf gegen ${p2.name}!`, text, () => {
+        showPopup(`Kampf gegen ${p2.name}!`, "Verlierer Trinkt 2!<br>" + text, () => {
           console.log("Popup für Kampf gegen", p2.name, "geschlossen; rufe nextFight()");
           leaderboard?.update();
           nextFight();
@@ -267,6 +267,23 @@ const hotspotGroupRule =
   hotspot && Array.isArray(hotspot.rules)
     ? hotspot.rules.find(r => r.type === "group")
     : null;
+
+// -------------------------------------------------------
+// GROUP: OnTurn-Sperre für dieselbe Gruppe
+// -------------------------------------------------------
+if (hotspotGroupRule) {
+  const groupId = hotspotGroupRule.groupId;
+
+  // Wenn dieselbe Gruppe wie beim Turn-Start → NICHT erneut triggern
+  if (player.skipGroupId === groupId) {
+    // NICHT löschen – erst wenn Spieler die Gruppe verlässt
+    return continueAfterGroup();
+  }
+
+  // Wenn neue Gruppe → alte Sperre löschen
+  player.skipGroupId = null;
+}
+    
 
 if (hotspotGroupRule) {
   const groupId = hotspotGroupRule.groupId;
@@ -741,7 +758,7 @@ if (handled?.type === "randomFieldText") {
 
               showPopupOkButton();
               setPopupAction(() => {
-                game.nextPlayer();
+                setTimeout(() => game.nextPlayer(), 50);
                 leaderboard?.update();
               });
             }
@@ -852,49 +869,67 @@ if (handled?.type === "threeRolls") {
     //
     // === GUESS ROLL ===
     //
-    if (handled?.type === "guessRoll") {
-      // (dein kompletter Block bleibt unverändert)
-      let chosen = null;
+if (handled?.type === "guessRoll") {
 
-      showPopup(
-        fieldTitle,
-        `
-          ${fieldText}<br><br>
-          <b>Wähle eine Zahl (1–6):</b>
-        `,
-        null,
-        {
-          numberSelect: [1, 2, 3, 4, 5, 6],
-          onSelect: (num) => {
-            chosen = num;
+  let chosen = null;
 
-            showPopup(
-              "Würfeln!",
-              `
+  showPopup(
+    fieldTitle,
+    `
+      ${fieldText}<br><br>
+      <b>Wähle eine Zahl (1–6):</b>
+    `,
+    null,
+    {
+      numberSelect: [1, 2, 3, 4, 5, 6],
+      onSelect: (num) => {
+        chosen = num;
+
+        showPopup(
+          "Würfeln!",
+          `
+            Du hast <b>${chosen}</b> gewählt.<br><br>
+            Wenn du richtig liegst, bist du nochmal dran.<br>
+            Wenn nicht, ist der nächste Spieler dran und du Trinkst 2.
+          `,
+          null,
+          {
+            showDiceButton: true,
+
+            onDice: (roll) => {
+
+              const correct = roll === chosen;
+
+              // Popup aktualisieren (wie bei allen anderen Regeln)
+              updatePopupText(`
                 Du hast <b>${chosen}</b> gewählt.<br><br>
-                Wenn du richtig liegst, bist du nochmal dran.<br>
-                Wenn nicht, ist der nächste Spieler dran und du Trinkst 2.
-              `,
-              null,
-              {
-                showDiceButton: true,
-                onDice: (roll) => {
-
-                  if (roll === chosen) {
-                    leaderboard?.update();
-                  } else {
-                    game.nextPlayer();
-                    leaderboard?.update();
-                  }
+                <b>Gewürfelt: ${roll}</b><br><br>
+                ${correct
+                  ? "<b>Richtig!</b> Du bist nochmal dran."
+                  : "<b>Falsch!</b> Nächster Spieler und du trinkst 2."
                 }
-              }
-            );
-          }
-        }
-      );
+              `);
 
-      return;
+              // OK-Button wie bei allen anderen Regeln
+              showPopupOkButton();
+
+              // Turn-Wechsel erst NACH Popup
+              setPopupAction(() => {
+                if (!correct) {
+                  game.nextPlayer();
+                }
+                leaderboard?.update();
+              });
+            }
+          }
+        );
+      }
     }
+  );
+
+  return;
+}
+
 
     //
     // === ROLL UNTIL ODD ===
@@ -1033,6 +1068,8 @@ game.callbacks.onTurnChange = (player) => {
   const groupRule = GROUP_RULES[groupId];
 
   if (groupRule?.onTurn) {
+
+    player.skipGroupId = groupId
 
     // Turn pausieren, aber NICHT abbrechen
     groupRule.onTurn(player, game, () => {
