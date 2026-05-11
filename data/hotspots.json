@@ -24,7 +24,7 @@
   { "id": 21, "left": 80,   "top": 46.0, "rules": {"type": "doubleNextRoll"} },
   { "id": 22, "left": 80,   "top": 54.3, "rules": {} },
   { "id": 23, "left": 80,   "top": 62.8, "rules": {} },
-  { "id": 24, "left": 80,   "top": 71.4, "rules": [{"type":"group", "groupId": "Tower"}] },
+  { "id": 24, "left": 80,   "top": 71.4, "rules": [{"type":"group", "groupId": "Tower"}], "sound": "../assets/music/Pokemon-Turm.mp3" },
   { "id": 25, "left": 80,   "top": 79.9, "rules": [{"type":"group", "groupId": "Tower"}] },
 
   { "id": 26, "left": 71.5, "top": 79.9, "rules": [{"type":"group", "groupId": "Tower"}, {"type": "back", "steps": 10}] },
@@ -39,7 +39,7 @@
   { "id": 34, "left": 20.7, "top": 62.8, "rules": {} },
   { "id": 35, "left": 20.7, "top": 54.3, "rules": {"type": "chooseRerollOrIgnoreStop"} },
   { "id": 36, "left": 20.7, "top": 46.0, "rules": {} },
-  { "id": 37, "left": 20.7, "top": 37.5, "rules": [{"type":"group", "groupId": "Silph"}] },
+  { "id": 37, "left": 20.7, "top": 37.5, "rules": [{"type":"group", "groupId": "Silph"}], "sound": "../assets/music/Silph.mp3" },
   { "id": 38, "left": 20.7, "top": 29.1, "rules": [{"type":"group", "groupId": "Silph"}] },
   { "id": 39, "left": 20.7, "top": 20.7, "rules": [{"type":"group", "groupId": "Silph"},{"type": "giveGateToPlayer", "requiredRolls": [1,2,3]}] },
 
@@ -53,7 +53,7 @@
   { "id": 46, "left": 71.5, "top": 29.1, "rules": {} },
   { "id": 47, "left": 71.5, "top": 37.5, "rules": {} },
   { "id": 48, "left": 71.5, "top": 46.0, "rules": {} },
-  { "id": 49, "left": 71.5, "top": 54.3, "rules": [{"type":"group", "groupId": "Safari"}] },
+  { "id": 49, "left": 71.5, "top": 54.3, "rules": [{"type":"group", "groupId": "Safari"}], "sound": "../assets/music/Safari.mp3" },
   { "id": 50, "left": 71.5, "top": 62.8, "rules": [{"type":"group", "groupId": "Safari"}, {"type": "dicePopup"}] },
   { "id": 51, "left": 71.5, "top": 71.4, "rules": [{"type":"group", "groupId": "Safari"}] },
 
@@ -77,7 +77,7 @@
   { "id": 66, "left": 62.9, "top": 37.5, "rules": {"type": "skip", "rounds": 2} },
   { "id": 67, "left": 62.9, "top": 46.0, "rules": {} },
   { "id": 68, "left": 62.9, "top": 54.3, "rules": {"type": "skip", "rounds": 1} },
-  { "id": 69, "left": 62.9, "top": 62.8, "rules": [{"type": "stop"}, {"type": "multiGate", "requiredCount": 3, "allowedRolls": [4,5,6]}] },
+  { "id": 69, "left": 62.9, "top": 62.8, "rules": [{"type": "stop"}, {"type": "multiGate", "requiredCount": 3, "allowedRolls": [4,5,6]}], "sound": "../assets/music/Elite4.mp3" },
   { "id": 70, "left": 54.5, "top": 62.8, "rules": [{"type": "stop"}, {"type": "gate", "requiredRolls": [4]}]},
   { "id": 71, "left": 45.9, "top": 62.8, "rules": {"type": "stop"} },
   { "id": 72, "left": 37.4, "top": 62.8, "rules": {"type": "stop"} }, 

@@ -16,7 +16,7 @@
     <div id="player-setup-modal" class="modal">
       <div class="modal-content setup-modal">
 
-        <h1 class="modal-title">Pokémon Trinkspiel</h1>
+        <img src="/assets/title.png" alt="Pokémon" class="modal-title-image">
         <p class="modal-subtitle">von Dennis</p>
 
         <h2 class="modal-section-title">Spieler auswählen</h2>
@@ -48,6 +48,11 @@
       <div id="leaderboard-content"></div>
     </div>
 
+      <!-- Hintergrundmusik -->
+  <audio id="bg-music" preload="auto"></audio>
+
+  <!-- Event-Sound -->
+  <audio id="event-sound" preload="auto"></audio>
 
 <!-- Bottom Controls -->
 <div id="game-controls" class="controls hidden">
@@ -153,6 +158,7 @@
 
   </div>
 </div>
+<script src="./audio/music.js"></script>
 <script type="module" src="main.js"></script>
 </body>
 </html>

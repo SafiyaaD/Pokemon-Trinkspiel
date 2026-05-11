@@ -1,13 +1,19 @@
-const CACHE = "pwa-cache-v4";
+const CACHE = "pwa-cache-v1.0.4";
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open(CACHE).then((cache) => {
       return cache.addAll([
         "./",
-        "./index.html",
         "./main.js",
-        "./assets/pikachu.png"
+
+        "./assets/pikachu.png",
+        "./assets/charmander.png",
+        "./assets/squirtle.png",
+        "./assets/bulbasaur.png",
+        "./assets/title.png",
+
+        "./manifest.webmanifest",
       ]);
     })
   );
@@ -36,6 +42,11 @@ self.addEventListener("activate", event => {
     event.respondWith(fetch(event.request));
     return;
   }
+  if (url.endsWith("index.html") || url.endsWith("/")) {
+  event.respondWith(fetch(event.request));
+  return;
+}
+
 
   // Standard: Cache first
   event.respondWith(

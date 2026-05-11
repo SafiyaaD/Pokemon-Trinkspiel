@@ -69,6 +69,8 @@ export function initSetup(game, hotspots, leaderboard) {
     // 🔥 Leaderboard direkt nach dem Setup aktualisieren
     leaderboard.update();
 
+    startPlaylist();
+
     setupModal.classList.add('hidden');
     controls.classList.remove('hidden');
 

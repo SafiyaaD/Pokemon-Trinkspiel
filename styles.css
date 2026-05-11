@@ -260,10 +260,11 @@ html, body {
 }
 
 .dice {
+  --dice-size: clamp(60px, 6vw, 110px);
   position: relative;
   perspective: none;
-  width: clamp(60px, 6vw, 110px);
-  height: clamp(60px, 6vw, 110px);
+  width: var(--dice-size);
+  height: var(--dice-size);
   transform-style: preserve-3d;
   transform: rotateX(15deg) rotateY(-15deg);
   transition: transform 0.6s ease;
@@ -297,7 +298,7 @@ html, body {
 
 /* Sonderwerte – wie vorher, nur neutral */
 .face-number {
-  transform: translateZ(48px);
+  transform: translateZ(calc(var(--dice-size) / 2));
   font-size: 2.4rem !important;
   opacity: 0;
   z-index: 9999;
@@ -305,12 +306,12 @@ html, body {
 }
 
 /* 3D-Positionen */
-.face-1 { transform: rotateY(0deg) translateZ(48px); }
-.face-2 { transform: rotateY(90deg) translateZ(48px); }
-.face-3 { transform: rotateY(180deg) translateZ(48px); }
-.face-4 { transform: rotateY(-90deg) translateZ(48px); }
-.face-5 { transform: rotateX(90deg) translateZ(48px); }
-.face-6 { transform: rotateX(-90deg) translateZ(48px); }
+.face-1 { transform: rotateY(0deg) translateZ(calc(var(--dice-size) / 2)); }
+.face-2 { transform: rotateY(90deg) translateZ(calc(var(--dice-size) / 2)); }
+.face-3 { transform: rotateY(180deg) translateZ(calc(var(--dice-size) / 2)); }
+.face-4 { transform: rotateY(-90deg) translateZ(calc(var(--dice-size) / 2)); }
+.face-5 { transform: rotateX(90deg) translateZ(calc(var(--dice-size) / 2)); }
+.face-6 { transform: rotateX(-90deg) translateZ(calc(var(--dice-size) / 2)); }
 
 .pip-face {
   position: relative;
@@ -514,11 +515,20 @@ html, body {
   width: 380px;
 }
 
+/*
 .modal-title {
   font-size: 1.8rem;
   margin-bottom: 0.2rem;
   font-weight: 700;
+}*/
+
+.modal-title-image {
+  width: clamp(120px, 40vw, 280px);
+  margin: 0 auto 0.5rem auto;
+  display: block;
+  filter: drop-shadow(0 0 8px rgba(0,0,0,0.4));
 }
+
 
 .modal-subtitle {
   margin-top: 0;

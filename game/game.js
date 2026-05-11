@@ -8,6 +8,8 @@ export function createGame({ hotspots, onMoveStep, onLand, onTurnChange }) {
     isAnimating: false,
     halfUntilPlayer: null,
   };
+  
+  const triggeredSounds = new Set(); // Um zu verfolgen, welche Sound-Felder bereits ausgelöst wurden
 
 const callbacks = {onMoveStep, onLand, onTurnChange};
 
@@ -145,6 +147,12 @@ function roll() {
 for (let i = 0; i < path.length; i++) {
   const fieldId = path[i];
   const hotspot = state.hotspots.find(h => h.id === fieldId);
+
+   // ⭐ SOUND-TRIGGER (nur 1x pro Spiel)
+  if (hotspot?.sound && !triggeredSounds.has(fieldId)) {
+    triggeredSounds.add(fieldId);
+    playEventSound(hotspot.sound);
+  }
 
   if (!hotspot?.rules) continue;
 
