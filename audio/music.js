@@ -1,11 +1,11 @@
 const bgMusic = document.getElementById("bg-music");
 
 const playlist = [
-    "../assets/music/Intro.mp3",
-    "../assets/music/Labor.mp3",
-    "../assets/music/Route1.mp3",
-    "../assets/music/Orania.mp3",
-    "../assets/music/Route2425.mp3",
+    "assets/music/Intro.mp3",
+    "assets/music/Labor.mp3",
+    "assets/music/Route1.mp3",
+    "assets/music/Orania.mp3",
+    "assets/music/Route2425.mp3",
 ];
 
 let currentTrack = 0;
